@@ -18,7 +18,7 @@
 /** Main entry point */
 int main(int argc, char **argv) {
 	int height, width, input;
-	std::string dev, frame_id;
+	std::string dev, frame_id, cinfo_url;
 	sensor_msgs::Image image;
 	sensor_msgs::CameraInfo cam_info;
 
@@ -37,6 +37,9 @@ int main(int argc, char **argv) {
 	nh.param<int>("input", input, 0);
 	nh.param<std::string>("device", dev, "/dev/video0");
   nh.param<std::string>("frame_id", frame_id, "camera");
+  nh.param<std::string>("camera_info_url", cinfo_url, "file:///tmp/calibration_camera.yaml");
+
+  cinfo.loadCameraInfo(cinfo_url);
 
 	ROS_INFO("Opening device : %s", dev.c_str());
 	Camera cam(dev.c_str(), width, height);
